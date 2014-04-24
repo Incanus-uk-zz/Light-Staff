@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name = "app_name">LED_Staff</string>
+    <string name = "redText">Red</string>
+    <string name = "greenText">Green</string>
+    <string name = "blueText">Blue</string>
+    <string name = "setColourText">Set Staff to Single Colour</string>
+    <string name = "smoothText">Smooth</string>
+    <string name = "swipeText">Swipe</string>
+    <string name = "chaseText">Chase (not working)</string>
+    <string name = "justDataText">Sequence File</string>
+    <string name = "liveText">Live Update</string>
+    <string name = "inotoutText">In</string>
+    
+    
+    <string-array name = "period">
+        <item>0.5</item>
+        <item>1.0</item>
+        <item>1.5</item>
+        <item>2.0</item>
+        <item>2.5</item>
+        <item>3.0</item>
+        <item>3.5</item>
+        <item>4.0</item>
+        <item>4.5</item>
+        <item>5.0</item>        
+	</string-array>
+    <string-array name = "res">
+        <item>0</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>90</item>
+        <item>100</item>        
+	</string-array>
+    
+
+</resources>

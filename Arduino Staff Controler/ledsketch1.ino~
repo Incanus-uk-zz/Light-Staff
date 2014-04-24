@@ -1,0 +1,89 @@
+#include "LPD8806.h"
+#include "SPI.h"
+
+int leds=160;
+
+LPD8806 strip = LPD8806(leds);
+
+
+void setup() {
+  strip.begin();
+  strip.show();
+}
+
+void loop() {
+  
+}
+
+
+void RotateColour(int rotation,int steps){
+  float dr=rotation/steps;
+  unsigned int h,s,v;
+  int r;
+  int g;
+  int b;
+  for (int i=0; i < strip.numPixels(); i++) { 
+   uint32_t c=strip.getPixelColor(i);
+   CtoRGB(c, r, g, b)
+   RGBToHSB(r, g, b, &h, &s, &v);
+ }
+}
+
+void FadeHSB(
+
+void RGBToHSB(int r, int g, int bl, float *h, float *s, float *v){
+  *v=max(r,max(g,b));
+  float hp;
+  int c=*v-min(r,min(g,b));
+  if (b!=0){
+    *s=c/(*v);
+  } else {
+    *s=0;
+    *h=0;
+    return;
+  }
+  if (r==*v){
+    hp=(g-b)/c;
+  } else if (g==*v){
+    hp=2+(b-r)/c;
+  } else {
+    hp=4+(r-g)/c;
+  }
+  hp *= 60;
+  *h = hp%360;
+}
+
+
+long hsv2rgb(long h, byte s, byte v) {
+  byte r, g, b, lo;
+  int  s1;
+  long v1;
+
+  // Hue
+  h %= 1536;           // -1535 to +1535
+  if(h < 0) h += 1536; //     0 to +1535
+  lo = h & 255;        // Low byte  = primary/secondary color mix
+  switch(h >> 8) {     // High byte = sextant of colorwheel
+    case 0 : r = 255     ; g =  lo     ; b =   0     ; break; // R to Y
+    case 1 : r = 255 - lo; g = 255     ; b =   0     ; break; // Y to G
+    case 2 : r =   0     ; g = 255     ; b =  lo     ; break; // G to C
+    case 3 : r =   0     ; g = 255 - lo; b = 255     ; break; // C to B
+    case 4 : r =  lo     ; g =   0     ; b = 255     ; break; // B to M
+    default: r = 255     ; g =   0     ; b = 255 - lo; break; // M to R
+  }
+
+  // Saturation: add 1 so range is 1 to 256, allowig a quick shift operation
+  // on the result rather than a costly divide, while the type upgrade to int
+  // avoids repeated type conversions in both directions.
+  s1 = s + 1;
+  r = 255 - (((255 - r) * s1) >> 8);
+  g = 255 - (((255 - g) * s1) >> 8);
+  b = 255 - (((255 - b) * s1) >> 8);
+
+  // Value (brightness) and 24-bit color concat merged: similar to above, add
+  // 1 to allow shifts, and upgrade to long makes other conversions implicit.
+  v1 = v + 1;
+  return (((r * v1) & 0xff00) << 8) |
+          ((g * v1) & 0xff00)       |
+         ( (b * v1)           >> 8);
+}
